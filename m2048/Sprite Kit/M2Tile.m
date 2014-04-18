@@ -52,15 +52,12 @@
     // Initiate pending actions queue.
     _pendingActions = [[NSMutableArray alloc] init];
 
-    // Configure tile image
-    [self refreshImage];
-
     // For Fibonacci game, which is way harder than 2048 IMO, 40 seems to be the easiest number.
     // 90 definitely won't work, as we need approximately equal number of 2 and 3 to make the
     // game remotely makes sense.
     if (GSTATE.gameType == M2GameTypeFibonacci) self.level = arc4random_uniform(100) < 40 ? 1 : 2;
     else self.level = arc4random_uniform(100) < 95 ? 1 : 2;
-    
+
     [self refreshValue];
   }
   return self;
@@ -151,24 +148,19 @@
   self.level = level;
   [_pendingActions addObject:[SKAction runBlock:^{
     [self refreshValue];
-    [self refreshImage];
   }]];
 }
 
-- (void)refreshImage
+- (void)refreshValue
 {
-  [self removeAllChildren];
+  self.fillColor = [GSTATE colorForLevel:self.level];
+  if(_image) [_image removeFromParent];
   long value = [GSTATE valueForLevel:self.level];
   NSString *imageName = value == 1 ? @"2" : [NSString stringWithFormat:@"%ld", value];
   _image = [[SKSpriteNode alloc] initWithImageNamed:imageName];
   _image.position = CGPointMake(GSTATE.tileSize / 2, GSTATE.tileSize / 2);
   _image.size = CGSizeMake(GSTATE.tileSize, GSTATE.tileSize);
   [self addChild:_image];
-}
-
-- (void)refreshValue
-{
-  self.fillColor = [GSTATE colorForLevel:self.level];
 }
 
 
