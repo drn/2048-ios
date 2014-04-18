@@ -13,7 +13,8 @@
 
 @implementation M2Tile {
   /** The value of the tile, as some text. */
-  SKLabelNode *_value;
+//  SKLabelNode *_value;
+  SKSpriteNode *_image;
   
   /** Pending actions for the tile to execute. */
   NSMutableArray *_pendingActions;
@@ -50,14 +51,10 @@
     
     // Initiate pending actions queue.
     _pendingActions = [[NSMutableArray alloc] init];
-    
-    // Set up value label.
-    _value = [SKLabelNode labelNodeWithFontNamed:[GSTATE boldFontName]];
-    _value.position = CGPointMake(GSTATE.tileSize / 2, GSTATE.tileSize / 2);
-    _value.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-    _value.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
-    [self addChild:_value];
-    
+
+    // Configure tile image
+    [self refreshImage];
+
     // For Fibonacci game, which is way harder than 2048 IMO, 40 seems to be the easiest number.
     // 90 definitely won't work, as we need approximately equal number of 2 and 3 to make the
     // game remotely makes sense.
@@ -154,17 +151,23 @@
   self.level = level;
   [_pendingActions addObject:[SKAction runBlock:^{
     [self refreshValue];
+    [self refreshImage];
   }]];
 }
 
+- (void)refreshImage
+{
+  [self removeAllChildren];
+  long value = [GSTATE valueForLevel:self.level];
+  NSString *imageName = value == 1 ? @"2" : [NSString stringWithFormat:@"%ld", value];
+  _image = [[SKSpriteNode alloc] initWithImageNamed:imageName];
+  _image.position = CGPointMake(GSTATE.tileSize / 2, GSTATE.tileSize / 2);
+  _image.size = CGSizeMake(GSTATE.tileSize, GSTATE.tileSize);
+  [self addChild:_image];
+}
 
 - (void)refreshValue
 {
-  long value = [GSTATE valueForLevel:self.level];
-  _value.text = [NSString stringWithFormat:@"%ld", value];
-  _value.fontColor = [GSTATE textColorForLevel:self.level];
-  _value.fontSize = [GSTATE textSizeForValue:value];
-  
   self.fillColor = [GSTATE colorForLevel:self.level];
 }
 
