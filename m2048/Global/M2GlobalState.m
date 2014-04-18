@@ -13,10 +13,12 @@
 #define kTheme     @"Theme"
 #define kBoardSize @"Board Size"
 #define kBestScore @"Best Score"
+#define kOpacity   @"Opacity"
 
 @interface M2GlobalState ()
 
 @property (nonatomic, readwrite) NSInteger dimension;
+@property (nonatomic, readwrite) CGFloat opacity;
 @property (nonatomic, readwrite) NSInteger winningLevel;
 @property (nonatomic, readwrite) NSInteger tileSize;
 @property (nonatomic, readwrite) NSInteger borderWidth;
@@ -60,6 +62,7 @@
                                   kTheme: @0,
                                   kBoardSize: @1,
                                   kBestScore: @0,
+                                  kOpacity: @2
                                   };
   [Settings registerDefaults:defaultValues];
 }
@@ -75,6 +78,11 @@
   self.verticalOffset = [self verticalOffset];
   self.theme = [Settings integerForKey:kTheme];
   self.needRefresh = NO;
+  switch([Settings integerForKey:kOpacity]) {
+    case 0: self.opacity = 0.5; break;
+    case 1: self.opacity = 0.75; break;
+    case 2: self.opacity = 1; break;
+  }
 }
 
 

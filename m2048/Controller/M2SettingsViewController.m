@@ -44,11 +44,13 @@
 
 - (void)commonInit
 {
-  _options = @[@"Board Size", @"Theme"];
+  _options = @[@"Board Size", @"Theme", @"Opacity"];
   
   _optionSelections = @[@[@"3 x 3", @"4 x 4", @"5 x 5"],
-                        @[@"Default", @"Vibrant", @"Joyful"]];
-  
+                        @[@"Default", @"Vibrant", @"Joyful"],
+                        @[@"50%", @"75%", @"100%"]
+                        ];
+
   _optionsNotes = @[@"For Fibonacci games, a tile can be joined with a tile that is one level above or below it, but not to one equal to it. For Powers of 3, you need 3 consecutive tiles to be the same to trigger a merge!",
                     @"The smaller the board is, the harder! For 5 x 5 board, two tiles will be added every round if you are playing Powers of 2.",
                     @"Choose your favorite appearance and get your own feeling of 2048! More (and higher quality) themes are in the works so check back regularly!"];
