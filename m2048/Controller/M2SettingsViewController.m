@@ -44,10 +44,9 @@
 
 - (void)commonInit
 {
-  _options = @[@"Game Type", @"Board Size", @"Theme"];
+  _options = @[@"Board Size", @"Theme"];
   
-  _optionSelections = @[@[@"Powers of 2", @"Powers of 3", @"Fibonacci"],
-                        @[@"3 x 3", @"4 x 4", @"5 x 5"],
+  _optionSelections = @[@[@"3 x 3", @"4 x 4", @"5 x 5"],
                         @[@"Default", @"Vibrant", @"Joyful"]];
   
   _optionsNotes = @[@"For Fibonacci games, a tile can be joined with a tile that is one level above or below it, but not to one equal to it. For Powers of 3, you need 3 consecutive tiles to be the same to trigger a merge!",
